@@ -1,0 +1,79 @@
+.topbar {
+display: flex;
+justify-content: flex-end;
+align-items: center;
+gap: 12px;
+padding: 12px 24px;
+background: #ffffff;
+border-bottom: 1px solid #e2e4e8;
+}
+
+.user-info {
+display: flex;
+align-items: center;
+gap: 10px;
+}
+
+
+.user-name {
+font-size: 14px;
+font-weight: 500;
+color: #1a1a1a;
+}
+
+.logout-btn {
+background: #fff;
+border: 1px solid #d7d9dd;
+color: #444;
+padding: 8px 14px;
+border-radius: 6px;
+font-size: 14px;
+cursor: pointer;
+transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+/* explore */
+.explore-page {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.explore-page h1 {
+    text-align: center;
+    margin-bottom: 35px;
+    color: #2c3e50;
+}
+
+.user-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.user-card {
+    background: white;
+    border: 1px solid #d9d9d9;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    transition: transform 0.15s ease,
+                box-shadow 0.15s ease;
+}
+
+.user-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.12);
+}
+
+.user-card h2 {
+    margin: 0 0 12px;
+    color: #2980b9;
+}
+
+.user-bio {
+    line-height: 1.6;
+    color: #444;
+    word-break: break-word;
+}
