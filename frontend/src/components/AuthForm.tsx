@@ -25,7 +25,7 @@ export default function AuthForm({
   ) => {
     e.preventDefault();
 
-    onSubmit(email, username, password);
+    onSubmit(email, password, username);
   };
 
   const navigate = useNavigate();
@@ -76,7 +76,6 @@ export default function AuthForm({
         )}
 
         <div className="login-input">
-
           <input
             type="password"
             placeholder="Password"

@@ -66,7 +66,8 @@ def login():
     
     email = data.get("email")
     password = data.get("password")
-
+    print(email)
+    print(password)
     try:
         db_res = find_user_id(email, password);
         if db_res:
@@ -205,11 +206,13 @@ def lookup():
         ])
 
     except Exception as e:
-        error_trace = traceback.format_exc()
-        
-        return jsonify({
-            "error": error_trace,
-        }), 500
+        if app.debug == True:
+            error_trace = traceback.format_exc()
+            return jsonify({
+                "error": error_trace,
+            }), 500
+        else:
+            return jsonify({"error": "Invalid Operation",}), 500
 
 @app.route("/admin/delete/<user_id>", methods=["DELETE"])
 def delete_user(user_id):

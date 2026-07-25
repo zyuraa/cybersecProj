@@ -13,7 +13,7 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="/home/explore" element={<ExplorePage/>} />
-          <Route path="/supersecretadmin" element={<AdminPage/>} />
+          <Route path="/supersecretadmin/delete" element={<AdminPage/>} />
         </Routes>
     </BrowserRouter>
   )

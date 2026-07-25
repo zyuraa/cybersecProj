@@ -39,31 +39,31 @@ export default function AdminPage() {
     }, []);
 
   return (
-      <div className="admin-page">
-        <h1>Manage Users</h1>
+    <div className="admin-page">
+      <h1>Manage Users</h1>
 
-        <div className="user-list">
-        {users.map(user => (
-          <div
-            className="user-card"
-            key={user.username}
-            onClick={() => setUserToDelete(user)}
-            style={{ cursor: 'pointer' }}
-          >
-            <h2>{user.username}</h2>
-          </div>
-        ))}
+      <div className="user-list">
+      {users.map(user => (
+        <div
+          className="user-card"
+          key={user.username}
+          onClick={() => setUserToDelete(user)}
+          style={{ cursor: 'pointer' }}
+        >
+          <h2>{user.username}</h2>
         </div>
-
-        {userToDelete && (
-          <div className="delete-modal">
-            <div className="delete-modal-content">
-              <h3>Are you sure you want to delete {userToDelete.username}?</h3>
-              <button onClick={confirmDelete} className="confirm-btn">Yes</button>
-              <button onClick={() => setUserToDelete(null)} className="cancel-btn">Cancel</button>
-            </div>
-          </div>
-        )}
+      ))}
       </div>
+
+      {userToDelete && (
+        <div className="delete-modal">
+          <div className="delete-modal-content">
+            <h3>Are you sure you want to delete {userToDelete.username}?</h3>
+            <button onClick={confirmDelete} className="confirm-btn">Yes</button>
+            <button onClick={() => setUserToDelete(null)} className="cancel-btn">Cancel</button>
+          </div>
+        </div>
+      )}
+    </div>
   );
 }

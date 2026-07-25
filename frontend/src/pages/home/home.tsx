@@ -8,6 +8,7 @@ export default function HomePage() {
   const [bio, setBio] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
+  const [isAdmin, setIsAdmin] = useState(0);
   const [errorStatus, setErrorStatus] = useState(0);
 
   useEffect(() => {
@@ -26,6 +27,7 @@ export default function HomePage() {
       setBio(data.bio);
       setUsername(data.username);
       setEmail(data.email);
+      setIsAdmin(data.is_admin);
     };
 
     loadProfile();
@@ -70,6 +72,14 @@ export default function HomePage() {
   return (
     <>
       <div className="topbar">
+        {!!isAdmin &&
+          <button 
+            className="logout-btn"
+            onClick={() => navigate("/supersecretadmin/delete")}
+          >  
+            Delete Users
+          </button>
+        }
         <div className="user-info">
           <p> {username} </p>
           <div> {email} </div>
