@@ -7,6 +7,10 @@ import os
 from pymysql import connect
 import secrets
 import traceback
+import bcrypt
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
+
 
 load_dotenv()
 
@@ -16,10 +20,16 @@ CORS(
     supports_credentials=True,
     origins=["http://localhost:5173"]
 )
+limiter = Limiter(
+    get_remote_address,
+    app=app,
+    default_limits=["200 per day", "50 per hour"]
+)
 
 # Routes
 
 @app.route("/register", methods=["POST"])
+@limiter.limit("5 per minute")
 def register():
     data = request.get_json()
     if data is None:
@@ -58,6 +68,7 @@ def register():
         return jsonify({"error": "Bad request"}), 400
 
 @app.route("/login", methods=["POST"])
+@limiter.limit("5 per minute")
 def login():
     data = request.get_json()
     if data is None:
@@ -250,15 +261,27 @@ def execute(query, parameters=None):
         connection.close()
 
 def find_user_id(email, password):
-    results = execute(f"SELECT id, is_admin FROM users WHERE (email = '{email}') AND password = '{password}'")
-    return results[0] if (results) else False
+    results = execute("SELECT id, is_admin, password FROM users WHERE email = %s", (email,))
+    id, admin, hash = results[0]
+    if bcrypt.checkpw(
+        password.encode("utf-8"),
+        hash.encode("utf-8")
+    ):
+        return results[0]
+    
+    return False
 
 def add_user(username, email, password):
-    results = execute(f"SELECT id, is_admin FROM users WHERE (username = '{username}' OR email = '{email}')")
+    results = execute("SELECT id, is_admin FROM users WHERE (username = %s OR email = %s)", (username, email,))
     if results:
         return False
 
-    execute(f"INSERT INTO users (username, password, email) VALUES ('{username}', '{password}', '{email}')")
+    hashed_password = bcrypt.hashpw(
+        password.encode("utf-8"),
+        bcrypt.gensalt()
+    ).decode("utf-8")
+
+    execute("INSERT INTO users (username, password, email) VALUES (%s, %s, %s)", (username, hashed_password, email,))
 
     results = execute("SELECT id, is_admin FROM users WHERE id = LAST_INSERT_ID(id) ORDER BY id DESC LIMIT 1")
     return results[0] if (results) else None
